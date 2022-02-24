@@ -15,13 +15,23 @@ export default function CatForm(props) {
                 Description: values.Description
             }
             console.log(categoryToCreate);
-            axios.post('http://localhost:63926/api/categories/', categoryToCreate).then(() => {
+            axios.post('http://todoapi.scott-cashion.com/api/categories/', categoryToCreate).then(() => {
                 props.setShowCreate(false)
                 props.getCategories();
             })
         }
         else{
             //edit code
+            const category = {
+                CategoryId: props.category.CategoryId,
+                Name: values.Name,
+                Description: values.Description
+            }
+
+            axios.put('http://todoapi.scott-cashion.com/api/categories/', category).then(() => {
+                props.getCategories();
+                props.setShowEdit(false);
+            })
         }
     })
 
@@ -29,8 +39,8 @@ export default function CatForm(props) {
     <div className="createCategory m-2 text-white text-center">
         <Formik 
             initialValues={{
-                Name: '',
-                Description: '',
+                Name: props.category ? props.category.Name : '',
+                Description: props.category ? props.category.Description : '',
             }}
             validationSchema={catSchema}
             onSubmit={values => handleSubmit(values)}>

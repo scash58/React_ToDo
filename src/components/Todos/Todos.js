@@ -7,6 +7,8 @@ import SingleTodo from './SingleTodo';
 //Step - Create
 import TodoCreate from './TodoCreate';
 import { useAuth } from '../../contexts/AuthContext';
+import FilterCat from './FilterCat';
+import FilterDone from './FilterDone';
 
 //npm install axios - tool that will manage HTTP requests to our api
 import axios from 'axios'
@@ -21,9 +23,14 @@ export default function Todo() {
   //Create functionality needs to be protected from any user and only show when the user is a specific user
   const {currentUser} = useAuth();
 
+  //step - filter - below we create a hook that will change when the user clicks the button for the etech they want to see todo for. We will tie the filter to the todo's categoryId
+  const [filterCat, setFilterCat] = useState(0);
+
+  const [filterDone, setFilterDone] = useState(false);
+
   //This is our function to retrieve data from the TodoAPI.
   const getTodos = () => {
-    axios.get('http://localhost:63926/api/todo/').then(response => {
+    axios.get('http://todoapi.scott-cashion.com/api/todo/').then(response => {
       setTodos(response.data);
     })
   }
@@ -54,15 +61,38 @@ export default function Todo() {
             </div>
           </div>
         }
+
+        <FilterCat
+          setFilterCat={setFilterCat} />
+
+        <FilterDone
+          setFilterDone={setFilterDone} />
+
         <Container>
           <article className="todoGallery row justify-content-center">
-            {todos.map(x =>
-              <SingleTodo 
-              key={(x.TodoId)} 
-              todo={x} 
-              getTodos={getTodos}
-              />
-            )}
+            {/* Step 1 - Edit/Delete Add props for getResources and categoreies -- move to singleResource */}
+            {/* Below we write the conditional rendering to see if the user is trying to filter results or not, and display the right todos accordign to what they want */}
+            {filterCat === 0 && filterDone === false ?
+              todos.map(x =>
+                <SingleTodo 
+                  key={(x.TodoId)} 
+                  todo={x} 
+                  getTodos={getTodos}
+                />
+              ) :
+              todos.filter(x => x.CategoryId === filterCat && x.Done === Boolean(filterDone)).map(x =>
+                <SingleTodo 
+                  key={(x.TodoId)} 
+                  todo={x} 
+                  getTodos={getTodos}
+                />
+              )
+            }
+            {filterCat !== 0 && todos.filter(x => x.CategoryId === filterCat && x.Done === Boolean(filterDone)).length === 0 && 
+              <h2 className="alert alert-warning text-dark">
+                There are no results for this category
+              </h2>
+            }
           </article>
         </Container>
       </section>

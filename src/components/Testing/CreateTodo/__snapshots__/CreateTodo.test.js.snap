@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CreateTodo - matches snapshot 1`] = `
+<article
+  className="createTodo m-2 text-white justify-content-center"
+>
+  <form
+    action="#"
+    id="todoForm"
+    onReset={[Function]}
+    onSubmit={[Function]}
+  >
+    <div
+      className="form-group m-3"
+    >
+      <input
+        className="form-control"
+        name="Action"
+        onBlur={[Function]}
+        onChange={[Function]}
+        placeholder="Task to be compleated"
+        value=""
+      />
+    </div>
+    <div
+      className="form-group m-3"
+    >
+      <select
+        className="form-control"
+        name="CategoryId"
+        onBlur={[Function]}
+        onChange={[Function]}
+        value=""
+      >
+        <option
+          disabled={true}
+          value="0"
+        >
+          [--Please Choose--]
+        </option>
+      </select>
+    </div>
+    <div
+      className="form-group m-3"
+    >
+      <button
+        className="btn btn-info m-3"
+        type="submit"
+      >
+        Submit Todo
+      </button>
+    </div>
+  </form>
+</article>
+`;

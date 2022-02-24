@@ -18,7 +18,7 @@ export default function Categories() {
 
   //Step 4 - Inject data into the component
   const getCategories = () => {
-    axios.get('http://localhost:63926/api/categories/').then (response => {
+    axios.get('http://todoapi.scott-cashion.com/api/categories/').then (response => {
       setCategories(response.data)
     })
   }
@@ -50,6 +50,9 @@ export default function Categories() {
                 <tr>
                   <th>Name</th>
                   <th>Description</th>
+                  {currentUser.email === 'scashion58@gmail.com' &&
+                    <th>Actions</th>
+                  }
                 </tr>
               </thead>
             <tbody>
@@ -57,6 +60,7 @@ export default function Categories() {
                   <SingleCategory 
                     key={x.CategoryId} 
                     category={x} 
+                    getCategories={getCategories}
                   />
                 )}
             </tbody>
